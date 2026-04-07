@@ -435,6 +435,16 @@
       margin-bottom: 10px;
     }
 
+    .search-hint {
+      margin: 0 0 10px;
+      border: 1px dashed #cfb6df;
+      background: #f7effc;
+      color: #5f4f6d;
+      font-size: 13px;
+      padding: 9px;
+      border-radius: 6px;
+    }
+
     .advisor-list {
       list-style: none;
       margin: 0;
@@ -710,6 +720,7 @@
       </div>
       <p class="modal-intro">Introduza palavras-chave de interesse para obter uma lista de potenciais orientadores de mestrado ou doutoramento.</p>
       <input id="advisorSearch" class="search-input" type="text" placeholder="Ex.: economia comportamental, machine learning, sociologia urbana" />
+      <p id="searchHint" class="search-hint">Escreva keywords para encontrar orientadores. Exemplos: "economia", "migracoes", "machine learning", "ciberseguranca".</p>
       <ul id="advisorList" class="advisor-list"></ul>
       <p id="noResults" class="no-results">Nao foram encontrados orientadores para essas palavras-chave.</p>
     </div>
@@ -756,6 +767,86 @@
         name: "Helena Duarte",
         unit: "IT",
         areas: ["telecomunicacoes", "redes", "sistemas distribuidos", "ciberseguranca"]
+      },
+      {
+        name: "Ines Araujo",
+        unit: "BRU",
+        areas: ["contabilidade", "governacao", "auditoria", "sustentabilidade empresarial"]
+      },
+      {
+        name: "Joao Teixeira",
+        unit: "CIES",
+        areas: ["trabalho", "emprego", "juventude", "politicas sociais"]
+      },
+      {
+        name: "Leonor Gomes",
+        unit: "CEI",
+        areas: ["seguranca internacional", "uniao europeia", "diplomacia", "direitos humanos"]
+      },
+      {
+        name: "Miguel Nunes",
+        unit: "CIS",
+        areas: ["psicometria", "metodologia", "saude mental", "intervencao comunitaria"]
+      },
+      {
+        name: "Nadia Pires",
+        unit: "Dinamia'CET",
+        areas: ["inovacao", "empreendedorismo", "economia regional", "transformacao digital"]
+      },
+      {
+        name: "Rita Falcao",
+        unit: "CRIA",
+        areas: ["etnografia", "mobilidades", "patrimonio cultural", "museologia"]
+      },
+      {
+        name: "Tiago Valente",
+        unit: "ISTAR",
+        areas: ["visao por computador", "processamento de linguagem natural", "robotica", "algoritmos"]
+      },
+      {
+        name: "Vera Antunes",
+        unit: "IT",
+        areas: ["iot", "5g", "sistemas embebidos", "sensores"]
+      },
+      {
+        name: "Andre Correia",
+        unit: "BRU",
+        areas: ["gestao estrategica", "inovacao empresarial", "organizacoes", "lideranca"]
+      },
+      {
+        name: "Beatriz Lopes",
+        unit: "CIES",
+        areas: ["educacao", "desigualdades", "metodos mistos", "avaliacao de politicas"]
+      },
+      {
+        name: "Carlos Mota",
+        unit: "CEI",
+        areas: ["africa", "relacoes internacionais", "cooperacao para o desenvolvimento", "conflitos"]
+      },
+      {
+        name: "Diana Simoes",
+        unit: "CIS",
+        areas: ["comportamento organizacional", "motivacao", "bem-estar no trabalho", "psicologia do trabalho"]
+      },
+      {
+        name: "Eduardo Rocha",
+        unit: "Dinamia'CET",
+        areas: ["planeamento urbano", "habitação", "sustentabilidade urbana", "mobilidade"]
+      },
+      {
+        name: "Filipa Cardoso",
+        unit: "CRIA",
+        areas: ["antropologia digital", "media", "comunidades", "cultura visual"]
+      },
+      {
+        name: "Guilherme Leal",
+        unit: "ISTAR",
+        areas: ["engenharia de software", "arquitetura de sistemas", "qualidade de software", "devops"]
+      },
+      {
+        name: "Hugo Tavares",
+        unit: "IT",
+        areas: ["criptografia", "seguranca de redes", "privacidade", "blockchain"]
       }
     ];
 
@@ -763,6 +854,7 @@
     const openBtn = document.getElementById("openAdvisorModal");
     const closeBtn = document.getElementById("closeAdvisorModal");
     const searchInput = document.getElementById("advisorSearch");
+    const searchHint = document.getElementById("searchHint");
     const advisorList = document.getElementById("advisorList");
     const noResults = document.getElementById("noResults");
 
@@ -791,10 +883,16 @@
       });
     }
 
+    function resetSearchState() {
+      advisorList.innerHTML = "";
+      noResults.style.display = "none";
+      searchHint.style.display = "block";
+    }
+
     function filterAdvisors(query) {
       const normalized = normalize(query);
       if (!normalized) {
-        return advisors;
+        return [];
       }
 
       const terms = normalized.split(/\s+/).filter(Boolean);
@@ -807,7 +905,7 @@
     openBtn.addEventListener("click", () => {
       modal.classList.add("open");
       searchInput.value = "";
-      renderAdvisorList(advisors);
+      resetSearchState();
       searchInput.focus();
     });
 
@@ -822,7 +920,16 @@
     });
 
     searchInput.addEventListener("input", (event) => {
-      renderAdvisorList(filterAdvisors(event.target.value));
+      const query = event.target.value;
+      const normalized = normalize(query);
+
+      if (!normalized) {
+        resetSearchState();
+        return;
+      }
+
+      searchHint.style.display = "none";
+      renderAdvisorList(filterAdvisors(query));
     });
 
     document.addEventListener("keydown", (event) => {
