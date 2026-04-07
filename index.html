@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciencia Iscte</title>
+  <style>
+    :root {
+      --bg: #f3f3f4;
+      --purple: #7d1fa6;
+      --purple-dark: #5f117f;
+      --soft-purple: #eadcf2;
+      --text: #2e2e2e;
+      --muted: #7f7f7f;
+      --line: #d4c3de;
+      --top: #181818;
+      --shadow: 0 8px 18px rgba(72, 28, 102, 0.11);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .top-line {
+      height: 8px;
+      background: #d6dde3;
+    }
+
+    .utility-bar {
+      background: var(--top);
+      color: #f5f5f5;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .utility-inner,
+    .header-inner,
+    .search-inner,
+    .content,
+    .footer-inner {
+      width: min(1040px, 95vw);
+      margin: 0 auto;
+    }
+
+    .utility-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .brand-mini strong {
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      text-transform: lowercase;
+    }
+
+    .brand-mini small {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      display: block;
+      width: 78px;
+    }
+
+    .utility-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hero-header {
+      background: linear-gradient(90deg, #7d1fa6, #8d23b8);
+      color: #fff;
+      padding: 22px 0 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      min-height: 82px;
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: 58px;
+      line-height: 0.9;
+      font-weight: 900;
+      text-transform: lowercase;
+      letter-spacing: -0.8px;
+    }
+
+    .site-subtitle {
+      margin: 9px 0 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      opacity: 0.97;
+    }
+
+    .menu {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      display: none;
+    }
+
+    .menu span {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .search-strip {
+      background: #ececed;
+      border-bottom: 1px solid #d8d8db;
+      height: 34px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #6f6f72;
+      font-size: 13px;
+    }
+
+    .search-box {
+      border: none;
+      background: transparent;
+      color: #5c5c61;
+      width: 230px;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .content {
+      margin: 18px auto 26px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: #e8d8f1;
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      width: min(100%, 132px);
+      justify-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(125, 31, 166, 0.08);
+    }
+
+    .stat strong {
+      color: #722092;
+      font-size: 29px;
+      letter-spacing: -0.4px;
+      line-height: 1;
+    }
+
+    .stat span {
+      margin-top: 5px;
+      font-size: 11px;
+      color: #6d5d77;
+      width: 82%;
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .feature {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-top: 3px solid var(--purple);
+      padding: 8px 10px 10px;
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow);
+    }
+
+    .feature h3 {
+      margin: 0 0 7px;
+      color: var(--purple-dark);
+      font-size: 15px;
+      line-height: 1.22;
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #4f4f56;
+      flex: 1;
+    }
+
+    .feature button {
+      align-self: flex-start;
+      margin-top: 8px;
+      border: 0;
+      background: var(--purple);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 9px;
+      cursor: pointer;
+    }
+
+    .feature.highlight {
+      background: linear-gradient(145deg, #fbf7ff, #f3e7fb);
+      border: 2px solid #b88fcf;
+    }
+
+    .news-events {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .block {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 8px;
+    }
+
+    .block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #d9c4e8;
+      padding: 0 2px 4px;
+      margin-bottom: 8px;
+    }
+
+    .block-header h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1;
+      color: #7c219c;
+    }
+
+    .block-header a {
+      font-size: 11px;
+      color: #7c219c;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .story {
+      border: 1px solid #e5d4ef;
+      background: #faf8fc;
+      display: flex;
+      flex-direction: column;
+      min-height: 224px;
+    }
+
+    .story img {
+      width: 100%;
+      height: 124px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid #e2d0ec;
+    }
+
+    .story-body {
+      padding: 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .date {
+      color: #7b7b84;
+      font-size: 11px;
+    }
+
+    .title {
+      margin: 0;
+      color: #4f3b63;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .footer {
+      margin-top: 26px;
+      border-top: 1px solid #dadadd;
+      background: #f6f6f7;
+      color: #818188;
+      font-size: 10px;
+    }
+
+    .footer-inner {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(21, 12, 29, 0.56);
+      z-index: 50;
+      padding: 18px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(760px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #cfb6df;
+      border-radius: 10px;
+      box-shadow: 0 14px 36px rgba(31, 18, 41, 0.32);
+      padding: 16px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #6a1a8c;
+      font-size: 20px;
+    }
+
+    .close-btn {
+      border: 0;
+      background: #e9dcf2;
+      color: #5d2c7d;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .modal-intro {
+      margin: 0 0 10px;
+      color: #5d5d67;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 1px solid #c8acd8;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .advisor-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .advisor-list li {
+      border: 1px solid #e0cdeb;
+      border-left: 4px solid #9d4bc2;
+      border-radius: 6px;
+      padding: 10px;
+      background: #fbf8fd;
+    }
+
+    .advisor-name {
+      margin: 0 0 3px;
+      font-size: 15px;
+      color: #4f216b;
+      font-weight: 700;
+    }
+
+    .advisor-meta {
+      margin: 0;
+      font-size: 12px;
+      color: #5f5f69;
+      line-height: 1.4;
+    }
+
+    .no-results {
+      display: none;
+      margin-top: 6px;
+      border: 1px solid #d6bce5;
+      background: #f3e9f9;
+      color: #6a2f8d;
+      font-size: 13px;
+      padding: 8px;
+      border-radius: 6px;
+    }
+
+    @media (max-width: 1020px) {
+      .feature-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .news-events {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        display: none;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .top-line {
+        height: 6px;
+      }
+
+      .utility-bar {
+        height: 60px;
+      }
+
+      .brand-mini strong {
+        font-size: 42px;
+      }
+
+      .brand-mini small {
+        font-size: 8px;
+        width: 64px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+        padding: 10px 0;
+      }
+
+      .site-title {
+        font-size: 44px;
+      }
+
+      .site-subtitle {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-line"></div>
+  <div class="utility-bar">
+    <div class="utility-inner">
+      <div class="brand-mini" aria-label="Iscte Instituto Universitario de Lisboa">
+        <strong>iscte</strong>
+        <small>Instituto Universitario de Lisboa</small>
+      </div>
+      <div class="utility-links">
+        <span>English</span>
+        <span>FAQs</span>
+        <span>Ajuda</span>
+        <span>Menu</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero-header">
+    <div class="header-inner">
+      <div>
+        <h1 class="site-title">ciência_iscte</h1>
+        <p class="site-subtitle">A excelência da investigação e ciência no Iscte</p>
+      </div>
+      <nav class="menu" aria-label="Menu principal">
+        <span>Escolas</span>
+        <span>Unidades</span>
+        <span>Investigacao</span>
+        <span>Informacao</span>
+        <span>Estatisticas</span>
+      </nav>
+    </div>
+  </header>
+
+  <div class="search-strip">
+    <div class="search-inner">
+      <span>🔍</span>
+      <input class="search-box" type="text" value="Pesquisar" aria-label="Pesquisar" />
+    </div>
+  </div>
+
+  <main class="content">
+    <section class="stats" aria-label="Indicadores">
+      <article class="stat"><strong>5</strong><span>Escolas</span></article>
+      <article class="stat"><strong>8</strong><span>Unidades Inv.</span></article>
+      <article class="stat"><strong>1812</strong><span>Projetos</span></article>
+      <article class="stat"><strong>2492</strong><span>Autores</span></article>
+      <article class="stat"><strong>66249</strong><span>Publicacoes</span></article>
+      <article class="stat"><strong>573387</strong><span>Citacoes</span></article>
+    </section>
+
+    <section class="feature-row" aria-label="Destaques">
+      <article class="feature">
+        <h3>Encontre Oportunidades de Financiamento</h3>
+        <p>Utilize a ferramenta ResearchConnect para encontrar chamadas para projetos, bolsas e premios na sua area de investigacao e desenvolvimento.</p>
+        <button type="button">ResearchConnect</button>
+      </article>
+
+      <article class="feature">
+        <h3>Encontre Especialistas</h3>
+        <p>Pretende contactar investigadores, ou procurar novas areas de trabalho? Identifique especialistas e perfis relevantes na comunidade Iscte.</p>
+        <button type="button">Encontre Especialistas</button>
+      </article>
+
+      <article class="feature">
+        <h3>Objetivos de Desenvolvimento Sustentavel</h3>
+        <p>No contexto dos ODS da ONU, o Iscte-IUL orgulha-se de uma comunidade de investigacao ativa e orientada para impacto social.</p>
+        <button type="button">Saber Mais</button>
+      </article>
+
+      <article class="feature highlight">
+        <h3>Encontre o seu Orientador!</h3>
+        <p>Necessita de encontrar um orientador para a sua dissertacao de mestrado ou tese de doutoramento? Clique aqui para identificar pessoas alinhadas com os seus interesses.</p>
+        <button id="openAdvisorModal" type="button">Pesquisar Orientadores</button>
+      </article>
+    </section>
+
+    <section class="news-events">
+      <article class="block" aria-label="Noticias">
+        <div class="block-header">
+          <h2>Noticias</h2>
+          <a href="#">Ver Todas</a>
+        </div>
+        <div class="card-grid">
+          <article class="story">
+            <img src="https://picsum.photos/id/1011/420/250" alt="Grupo de pessoas em evento academico" />
+            <div class="story-body">
+              <span class="date">2025-11-07</span>
+              <p class="title">Prof. Maria de Fatima Salgueiro participa em encontro internacional de investigacao.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1048/420/250" alt="Apresentacao institucional com ecran" />
+            <div class="story-body">
+              <span class="date">2025-10-27</span>
+              <p class="title">Cerimonia Nokia Best Student Awards distingue estudantes do Iscte.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1027/420/250" alt="Retrato de investigadores" />
+            <div class="story-body">
+              <span class="date">2025-09-28</span>
+              <p class="title">Docentes da Iscte Business School destacados no ranking internacional.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1035/420/250" alt="Campus universitario e estudantes" />
+            <div class="story-body">
+              <span class="date">2025-09-08</span>
+              <p class="title">O MSc in Business Administration abre candidaturas para nova edicao.</p>
+            </div>
+          </article>
+        </div>
+      </article>
+
+      <article class="block" aria-label="Eventos">
+        <div class="block-header">
+          <h2>Eventos</h2>
+          <a href="#">Ver Todos</a>
+        </div>
+        <div class="card-grid">
+          <article class="story">
+            <img src="https://picsum.photos/id/1005/420/250" alt="Auditório preparado para conferencia" />
+            <div class="story-body">
+              <span class="date">2026-01-16</span>
+              <p class="title">A pobreza a escala local e a delegacao em debate no Iscte.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1050/420/250" alt="Edificio do campus Iscte" />
+            <div class="story-body">
+              <span class="date">2025-12-12</span>
+              <p class="title">Forum Pesquisas 40 Anos CIES analisa tendencias de investigacao.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1060/420/250" alt="Grafico abstrato com formas coloridas" />
+            <div class="story-body">
+              <span class="date">2025-12-10</span>
+              <p class="title">Politicas Publicas inclusivas: inovacao, colaboracao e impacto.</p>
+            </div>
+          </article>
+          <article class="story">
+            <img src="https://picsum.photos/id/1074/420/250" alt="Corredor de universidade" />
+            <div class="story-body">
+              <span class="date">2025-12-03</span>
+              <p class="title">Um olhar retrospetivo sobre as migracoes e os desafios urbanos.</p>
+            </div>
+          </article>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <span>Termos de Utilizacao</span>
+        <span>Politica de Cookies</span>
+        <span>Acessibilidade</span>
+      </div>
+      <span>© 2026 Iscte</span>
+    </div>
+  </footer>
+
+  <div id="advisorModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="advisorModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="advisorModalTitle">Encontre o seu Orientador</h3>
+        <button id="closeAdvisorModal" class="close-btn" type="button" aria-label="Fechar">x</button>
+      </div>
+      <p class="modal-intro">Introduza palavras-chave de interesse para obter uma lista de potenciais orientadores de mestrado ou doutoramento.</p>
+      <input id="advisorSearch" class="search-input" type="text" placeholder="Ex.: economia comportamental, machine learning, sociologia urbana" />
+      <ul id="advisorList" class="advisor-list"></ul>
+      <p id="noResults" class="no-results">Nao foram encontrados orientadores para essas palavras-chave.</p>
+    </div>
+  </div>
+
+  <script>
+    const advisors = [
+      {
+        name: "Prof. Ana Ribeiro",
+        school: "Iscte Business School",
+        areas: ["financas", "economia", "mercados", "gestao de risco"]
+      },
+      {
+        name: "Prof. Bruno Silva",
+        school: "Escola de Tecnologia e Arquitetura",
+        areas: ["inteligencia artificial", "machine learning", "data science", "big data"]
+      },
+      {
+        name: "Prof. Carolina Matos",
+        school: "Escola de Sociologia e Politicas Publicas",
+        areas: ["sociologia", "politicas publicas", "desigualdade", "migracoes"]
+      },
+      {
+        name: "Prof. Diogo Almeida",
+        school: "Escola de Ciencias Sociais e Humanas",
+        areas: ["historia", "estudos urbanos", "patrimonio", "memoria coletiva"]
+      },
+      {
+        name: "Prof. Eva Martins",
+        school: "Escola de Tecnologias Digitais Aplicadas",
+        areas: ["ciberseguranca", "sistemas distribuidos", "engenharia de software", "cloud"]
+      },
+      {
+        name: "Prof. Filipe Costa",
+        school: "Iscte Business School",
+        areas: ["marketing", "comportamento do consumidor", "branding", "analise de dados"]
+      }
+    ];
+
+    const modal = document.getElementById("advisorModal");
+    const openBtn = document.getElementById("openAdvisorModal");
+    const closeBtn = document.getElementById("closeAdvisorModal");
+    const searchInput = document.getElementById("advisorSearch");
+    const advisorList = document.getElementById("advisorList");
+    const noResults = document.getElementById("noResults");
+
+    function normalize(text) {
+      return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    }
+
+    function renderAdvisorList(items) {
+      advisorList.innerHTML = "";
+
+      if (!items.length) {
+        noResults.style.display = "block";
+        return;
+      }
+
+      noResults.style.display = "none";
+
+      items.forEach((advisor) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <p class="advisor-name">${advisor.name}</p>
+          <p class="advisor-meta"><strong>Unidade:</strong> ${advisor.school}</p>
+          <p class="advisor-meta"><strong>Areas:</strong> ${advisor.areas.join(", ")}</p>
+        `;
+        advisorList.appendChild(li);
+      });
+    }
+
+    function filterAdvisors(query) {
+      const normalized = normalize(query);
+      if (!normalized) {
+        return advisors;
+      }
+
+      const terms = normalized.split(/\s+/).filter(Boolean);
+      return advisors.filter((advisor) => {
+        const haystack = normalize(`${advisor.name} ${advisor.school} ${advisor.areas.join(" ")}`);
+        return terms.every((term) => haystack.includes(term));
+      });
+    }
+
+    openBtn.addEventListener("click", () => {
+      modal.classList.add("open");
+      searchInput.value = "";
+      renderAdvisorList(advisors);
+      searchInput.focus();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("open");
+    });
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.classList.remove("open");
+      }
+    });
+
+    searchInput.addEventListener("input", (event) => {
+      renderAdvisorList(filterAdvisors(event.target.value));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        modal.classList.remove("open");
+      }
+    });
+  </script>
+</body>
+</html>
