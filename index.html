@@ -61,25 +61,41 @@
     .brand-mini {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 16px;
       color: #fff;
       line-height: 1;
     }
 
-    .brand-mini strong {
-      font-size: 52px;
-      font-weight: 800;
-      letter-spacing: -1.2px;
-      text-transform: lowercase;
+    .brand-logo {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
 
-    .brand-mini small {
-      font-size: 10px;
+    .brand-wordmark {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: -4px;
+      text-transform: lowercase;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 0.9;
+      margin-top: 4px;
+    }
+
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1px;
+      margin-top: 10px;
+    }
+
+    .brand-copy span {
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.1px;
       text-transform: uppercase;
-      display: block;
-      width: 78px;
+      line-height: 1.02;
     }
 
     .utility-links {
@@ -480,16 +496,15 @@
       }
 
       .utility-bar {
-        height: 60px;
+        height: 52px;
       }
 
-      .brand-mini strong {
-        font-size: 42px;
+      .brand-wordmark {
+        font-size: 38px;
       }
 
-      .brand-mini small {
+      .brand-copy span {
         font-size: 8px;
-        width: 64px;
       }
 
       .stats {
@@ -522,8 +537,14 @@
   <div class="utility-bar">
     <div class="utility-inner">
       <div class="brand-mini" aria-label="Iscte Instituto Universitario de Lisboa">
-        <strong>iscte</strong>
-        <small>Instituto Universitario de Lisboa</small>
+        <div class="brand-logo">
+          <div class="brand-wordmark">iscte</div>
+          <div class="brand-copy">
+            <span>INSTITUTO</span>
+            <span>UNIVERSITÁRIO</span>
+            <span>DE LISBOA</span>
+          </div>
+        </div>
       </div>
       <div class="utility-links">
         <span>English</span>
@@ -697,34 +718,44 @@
   <script>
     const advisors = [
       {
-        name: "Prof. Ana Ribeiro",
-        school: "Iscte Business School",
+        name: "Ana Ribeiro",
+        unit: "BRU",
         areas: ["financas", "economia", "mercados", "gestao de risco"]
       },
       {
-        name: "Prof. Bruno Silva",
-        school: "Escola de Tecnologia e Arquitetura",
-        areas: ["inteligencia artificial", "machine learning", "data science", "big data"]
-      },
-      {
-        name: "Prof. Carolina Matos",
-        school: "Escola de Sociologia e Politicas Publicas",
+        name: "Bruno Silva",
+        unit: "CIES",
         areas: ["sociologia", "politicas publicas", "desigualdade", "migracoes"]
       },
       {
-        name: "Prof. Diogo Almeida",
-        school: "Escola de Ciencias Sociais e Humanas",
-        areas: ["historia", "estudos urbanos", "patrimonio", "memoria coletiva"]
+        name: "Carolina Matos",
+        unit: "CEI",
+        areas: ["estudos internacionais", "geopolitica", "desenvolvimento", "cooperacao"]
       },
       {
-        name: "Prof. Eva Martins",
-        school: "Escola de Tecnologias Digitais Aplicadas",
-        areas: ["ciberseguranca", "sistemas distribuidos", "engenharia de software", "cloud"]
+        name: "Diogo Almeida",
+        unit: "CIS",
+        areas: ["psicologia social", "metodos quantitativos", "comportamento", "avaliacao"]
       },
       {
-        name: "Prof. Filipe Costa",
-        school: "Iscte Business School",
-        areas: ["marketing", "comportamento do consumidor", "branding", "analise de dados"]
+        name: "Eva Martins",
+        unit: "Dinamia'CET",
+        areas: ["estudos urbanos", "territorio", "politicas de cidade", "planeamento"]
+      },
+      {
+        name: "Filipe Costa",
+        unit: "CRIA",
+        areas: ["antropologia", "cultura", "patrimonio", "identidades"]
+      },
+      {
+        name: "Goncalo Sousa",
+        unit: "ISTAR",
+        areas: ["inteligencia artificial", "machine learning", "data science", "engenharia de software"]
+      },
+      {
+        name: "Helena Duarte",
+        unit: "IT",
+        areas: ["telecomunicacoes", "redes", "sistemas distribuidos", "ciberseguranca"]
       }
     ];
 
@@ -753,8 +784,8 @@
         const li = document.createElement("li");
         li.innerHTML = `
           <p class="advisor-name">${advisor.name}</p>
-          <p class="advisor-meta"><strong>Unidade:</strong> ${advisor.school}</p>
-          <p class="advisor-meta"><strong>Areas:</strong> ${advisor.areas.join(", ")}</p>
+          <p class="advisor-meta"><strong>Unidade de Investigação:</strong> ${advisor.unit}</p>
+          <p class="advisor-meta"><strong>Áreas científicas de trabalho:</strong> ${advisor.areas.join(", ")}</p>
         `;
         advisorList.appendChild(li);
       });
@@ -768,7 +799,7 @@
 
       const terms = normalized.split(/\s+/).filter(Boolean);
       return advisors.filter((advisor) => {
-        const haystack = normalize(`${advisor.name} ${advisor.school} ${advisor.areas.join(" ")}`);
+        const haystack = normalize(`${advisor.name} ${advisor.unit} ${advisor.areas.join(" ")}`);
         return terms.every((term) => haystack.includes(term));
       });
     }
